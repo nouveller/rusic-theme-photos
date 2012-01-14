@@ -1,41 +1,56 @@
-    <div class="sort-order" data-option-key="sortBy">
-        <span>Order by:</span>
-        <ul class="pills">
-            <li><a href="#sortBy=original-order" data-option-value="original-order" class="active">latest</a></li>
-            <li><a href="#sortBy=number" data-option-value="number">popular</a></li>
-        </ul>
-    </div>
+<!-- 
+<div class="sort-order" data-option-key="sortBy">
+    <span>Order by:</span>
+    <ul class="pills">
+        <li><a href="#sortBy=original-order" data-option-value="original-order" class="active">latest</a></li>
+        <li><a href="#sortBy=number" data-option-value="number">popular</a></li>
+    </ul>
+</div>
+-->
 
-    {% if space.ideas != empty %}
-    <div id="index">
-        <div id="space-description">{{space.summary | markdown}}</div>
+{% if space.ideas != empty %}
+<ul class="ideas" id="ideas-loaded">
+
+{% for idea in space.ideas %}
+<li class="first-idea">
+  <div class="idea">
+    <img class="eb-image" src="{{idea.images.image.massive}}" />
+    
+    <div class="idea-ui">
+      <div class="idea-ui-container">
+
+        <div class="idea-comments">
+          <h2>{{idea.title}}'s comments</h2>  
+        </div><!-- /.idea-comments -->
+
+        <div class="idea-map">
+          <div class="map-holder">
+            <div class="gmap" id="map0"></div>
+          </div><!-- /.map-holder -->   
+        </div><!-- /.idea-comments -->
         
-        <ul id="entries-gallery">
-            {% paginate space.ideas by 15 %}
-            {% for idea in paginate %}
-            <li class="photo"><a href="{{idea.permalink}}" title="link to full page for {{idea.title}}"><img src="{{idea.images.first.medium_square}}" alt="Image for {{idea.title}}" width="157" height="157" /><h2 class="name">{{idea.title}}</h2>
-            <span class="like-count"><span class="heart">&hearts;</span> <span class="number">{{idea.likes}}</span></span></a></li>
-            {% endfor %}
-            {% endpaginate %}
+        <ul class="idea-nav">
+          <li class="icon-like"><a href="#">Like</a></li>
+          <li class="icon-comment"><a href="#">Comment</a></li>
+          <li class="icon-locate"><a href="#">Locate</a></li>
+          <li class="icon-view last"><a class="fancyb" href="{{idea.images.image.massive}}" title="Taken by Benjamin Reid">View</a></li>
         </ul>
+      </div><!-- /.idea-ui-container -->  
+    </div><!-- /.idea-ui -->
+  </div><!-- /.idea -->
+</li>
+{% endfor %}
 
-        <!-- Paging -->
-        <!--
-        <div id="page-navigation">
-            <a href="{{ pagination.next_url }}" title="#" class="next">next page</a>
-            <a href="{{ pagination.previous_url }}" title="#" class="prev">previous page</a>
-        </div>
-        -->
-    </div>
-    {% else %}
+</ul>
+{% else %}
 
-    <div class="empty">
-      <h1>There aren't any photos here yet!</h1>
-      {% if current_user %}
-      <p>be the first to add photo by using the 'add a new idea' button</p>
-      {% else %}
-      <p>login with twitter or facebook to be the first to add a photo</p>
-      {% endif %}
-    </div>
+<div class="empty">
+  <h1>There aren't any photos here yet!</h1>
+  {% if current_user %}
+  <p>be the first to add photo by using the 'add a new idea' button</p>
+  {% else %}
+  <p>login with twitter or facebook to be the first to add a photo</p>
+  {% endif %}
+</div>
 
-    {% endif %}
+{% endif %}
