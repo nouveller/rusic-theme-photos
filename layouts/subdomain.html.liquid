@@ -61,22 +61,24 @@
 
   <p class="strapline">"Humanizing the world, one googly eye at a time..."</p>
 
-  {% if space.expires_at %}
-    <div id="timer">
-      <time id="expires-at" datetime="{{space.expires_at}}">{{space.expires_at}}</time>
-      <span class="countdown-text">Left to submit your photos</span>
-    </div>
-  {% endif %}      
+  <div class="header-extra">
+    {% if space.expires_at %}
+      <div id="timer">
+        <time id="expires-at" datetime="{{space.expires_at}}">{{space.expires_at}}</time>
+        <span class="countdown-text">Left to submit your photos</span>
+      </div>
+    {% endif %}      
 
-  <!-- Share buttons-->
-  <div id="share-space">
-    <div class="share-buttons">
-    <span class='st_twitter_hcount' displayText='Tweet'></span>
-    <span class='st_facebook_hcount' displayText='Facebook'></span>
-    <span class='st_plusone_hcount' ></span>
+    <!-- Share buttons-->
+    <div id="share-space">
+      <div class="share-buttons">
+      <span class='st_twitter_hcount' displayText='Tweet'></span>
+      <span class='st_facebook_hcount' displayText='Facebook'></span>
+      <span class='st_plusone_hcount' ></span>
+      </div>
+      <span class="text">Share this page:</span>
     </div>
-    <span class="text">Share this page:</span>
-  </div>
+  </div><!-- /.header-extra -->
 
   {{ yield }}
 
