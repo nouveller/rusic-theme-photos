@@ -20,7 +20,26 @@
       <div class="idea-ui-container">
 
         <div class="idea-comments">
-          <h2>{{idea.title}}'s comments</h2>  
+          <h2>{{idea.title}}'s comments</h2>
+          {% if idea.comments != empty %}
+          <ul>
+            {% for comment in idea.comments %}
+              <li>
+                {{comment.user.name}} said: {{comment.body | markdown}} 
+                on {{comment.created_at | date: "%b %m %Y"}}
+              </li>
+            {% endfor %}
+          <ul>
+          <form action="{{idea.permalink}}/comments" method="post" charset="utf-8">
+            <p>
+              <label for="comment_body">Comment</label>
+              <textarea id="comment_body" name="comment[body]"></textarea>
+            </p>
+            <p>
+              <input type="submit" name="submit" value="Post comment" />
+            </p>
+          </form>
+        {% endif %}  
         </div><!-- /.idea-comments -->
 
         <div class="idea-map">
