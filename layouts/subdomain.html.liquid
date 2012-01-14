@@ -1,25 +1,21 @@
-{% if env == "development" %}
-  {% assign asset_url="http://localhost:8080" %}
-{% else %}
-  {% assign asset_url="https://s3.amazonaws.com/rusic-photos-theme" %}
-{% endif %}
+{% assign asset_url="http://dev.nouveller.com/rusic" %}
 <!DOCTYPE html>
     <!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
     <!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
     <!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
     <!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>
-        {% if idea %}
-          {{ idea.title }} &middot;
-        {% endif %}
-        {{ space.title }}
-        Working!
-      </title>
-      <meta name="description" content="{{space.summary}}">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>
+      {% if idea %}
+        {{ idea.title }} &middot;
+      {% endif %}
+      {{ space.title }}
+      V.2.
+    </title>
+    <meta name="description" content="{{space.summary}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if idea %}
     <meta property="og:title" content="{{ idea.title }}"/>
     <meta property="og:type" content="article"/>
@@ -36,119 +32,74 @@
     <meta property="og:description" content="{{space.summary}}" />
     {% endif %}
 
-      <!-- Stylesheets -->
-      <link rel="stylesheet" href="{{asset_url}}/stylesheets/photos.css">
+    <link rel="stylesheet" href="{{asset_url}}/styles.css">
 
-      <!-- Scripts -->
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
-      {{ content_for_header }}
-      <script src="/assets/jquery.countdown.min.js"></script>
-      <script src="{{asset_url}}/javascripts/jquery.isotope.min.js"></script>
-      <script src="{{asset_url}}/javascripts/scripts.js"></script>
-
-      <!-- Fav & touch icons -->
-      <link rel="shortcut icon" href="images/favicon.ico">
-      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    {{ content_for_header }}
+    <link rel="stylesheet" href="{{asset_url}}/js/fancybox/jquery.fancybox.css">
+    <script src="{{asset_url}}/js/modernizr-2.0.6.min.js"></script>
   </head>
   <body class="{{ body_class }}">
 
-    {% if error %}
-    <div class="alert-message error prompt">
-    {{ error }}
+  {% if error %}
+  <div class="alert-message error prompt">
+  {{ error }}
+  </div>
+  {% endif %}
+  {% if alert %}
+  <div class="alert-message warning prompt">
+  {{ alert }}
+  </div>
+  {% endif %}
+  {% if notice %}
+  <div class="alert-message success prompt">
+  {{ notice }}
+  </div>
+  {% endif %}
+  
+  <div class="wrapper">
+  <h1><a href="{{space.permalink}}" title="link to Social Space">{{space.title}}</a></h1>
+
+  <p class="strapline">"Humanizing the world, one googly eye at a time..."</p>
+
+  {% if space.expires_at %}
+    <div id="timer">
+      <time id="expires-at" datetime="{{space.expires_at}}">{{space.expires_at}}</time>
+      <span class="countdown-text">Left to submit your photos</span>
     </div>
-    {% endif %}
-    {% if alert %}
-    <div class="alert-message warning prompt">
-    {{ alert }}
+  {% endif %}      
+
+  <!-- Share buttons-->
+  <div id="share-space">
+    <div class="share-buttons">
+    <span class='st_twitter_hcount' displayText='Tweet'></span>
+    <span class='st_facebook_hcount' displayText='Facebook'></span>
+    <span class='st_plusone_hcount' ></span>
     </div>
-    {% endif %}
-    {% if notice %}
-    <div class="alert-message success prompt">
-    {{ notice }}
-    </div>
-    {% endif %}
+    <span class="text">Share this page:</span>
+  </div>
 
-    <!-- Header -->
-    <header class="container">
-        <h1><a href="{{space.permalink}}" title="link to Social Space">{{space.title}}</a></h1>
+  {{ yield }}
 
-        {% if space.expires_at %}
-          <div id="timer">
-            <time id="expires-at" datetime="{{space.expires_at}}">{{space.expires_at}}</time>
-            <span class="countdown-text">Left to submit your photos</span>
-          </div>
-        {% endif %}
-    </header>
+  <footer>
+      <p>A rusic theme to bomb the eyes out of you.</p>
+    </footer>
+  </div><!-- /.wrapper -->
 
-    <div id="wrapper" class="container">
+  <div class="nav-item nav-left-cont">
+    <a href="#" id="nav-left" class="nav-inactive">Left</a>
+  </div><!-- /.nav-item -->
 
-      <!-- Top bar -->
-      <div class="topbar">
-          <div class="fill">
-              <div class="container">
-                  {% if current_user %}
-                  <!-- Navgiation -->
-                  <div id="navigation">
-                      <a href="#" title="#" class="btn primary showbtn">Add new entry</a>
-                  </div>
-                  {% endif %}
-                  <!-- User block -->
-                  <div id="user-block">
-                      {% if current_user %}
-                      <div id="user">
-                          <img src="{{current_user.image_url}}" title="Your avatar from {{user.provider}}" class="avatar" width="30" height="30" />
-                          <span>Welcome back, {{current_user.nickname}} <a href="/auth/signout" title="logout of account">(logout)</a></span>
-                      </div>
-                      {% else %}
-                      <ul class="auth">
-                          <li class="twitter"><a href="/auth/twitter" class="button"><span></span>Twitter</a></li>
-                          <li class="facebook"><a href="/auth/facebook" class="button"><span></span>Facebook</a></li>
-                      </ul>
-                      <div id="login-tip" class="alert-message logintip">
-                          <i></i><p>To add a new entry, like an entry or comment login with:</p>
-                      </div>
-                      {% endif %}
-                  </div>
+  <div class="nav-item nav-right-cont">
+    <a href="#" id="nav-right">right</a>
+  </div><!-- /.nav-item -->
 
-              </div>
-          </div>
-      </div>
+  <script type="text/javascript">var switchTo5x=true;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'905146cb-1a71-4122-a2cd-e4a1c5d56f19'});</script>
 
-      {% if current_user %}
-        <!-- Add new idea form -->
-        <div id="new-entry">
-          <h2>Add a new entry to {{space.title}}</h2>
-          <form id="entry_form" method="post" action="{{space.permalink}}/ideas" class="clearfix" enctype="multipart/form-data">
-            <fieldset>
-              <div class="input"><label for="idea[title]">Entry title: </label><input class="span8" id="idea_title" name="idea[title]" type="text"></div>
-              <div class="input"><label for="idea[content]">Detail: </label> <textarea id="idea_content" name="idea[content]" rows="3"></textarea></div>
-              <div class="input"><label for="idea_images_attributes_0_file">Upload photo: </label> <input type="file" id="idea_images_attributes_0_file" name="idea[images_attributes][0][file]" /> </div>
-              <div class="submit-group">
-                <div class="checkarea"><input type="checkbox" name="idea[should_post_to_social]" value="1" checked />Share this to {{current_user.provider}}?</div>
-                <input type="submit" value="submit" class="btn primary submit" />
-              </div>
-            </fieldset>
-          </form>
-        </div>
-      {% endif %}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{asset_url}}/js/jquery-1.6.2.min.js"><\/script>')</script>
+  <script src="{{asset_url}}/js/fancybox/jquery.fancybox.pack.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9Xave6hpAmTKT4LT3L2vmkSq-roi0bxc&sensor=false"></script>
 
-        <!-- Share buttons-->
-        <div id="share-space">
-          <div class="share-buttons">
-          <span class='st_twitter_hcount' displayText='Tweet'></span>
-          <span class='st_facebook_hcount' displayText='Facebook'></span>
-          <span class='st_plusone_hcount' ></span>
-          </div>
-          <span class="text">Share this page:</span>
-        </div>
-
-      {{ yield }}
-
-    </div>
-
-    <script type="text/javascript">var switchTo5x=true;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'905146cb-1a71-4122-a2cd-e4a1c5d56f19'});</script>
-
+  <script src="{{asset_url}}/js/global.js"></script>
   </body>
 </html>
