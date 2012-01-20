@@ -73,19 +73,6 @@
     e.preventDefault();
   });
 
-  function posElements()
-  {
-    windowHeight  = $(window).height();
-    windowWidth   = $(window).width(); 
-    
-    navItems.css( { top: windowHeight/2 - ( navItems.height() / 2 ) } ); 
-  }
-  posElements();
-
-  window.onresize = function() {
-    posElements();
-  }
-
   function closeUIelements(parent)
   {
     parent.find('.idea-comments').animate({
@@ -100,6 +87,15 @@
 
   $('.fancyb').fancybox();
 
+  window.onresize = function() {
+    getWindowSize();
+  };
+
+  function getWindowSize()
+  {
+    windowWidth = $(this).width(), windowHeight = $(this).height();   
+  }
+  getWindowSize();
 
 
   /* IDEA NAV */

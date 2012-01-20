@@ -482,8 +482,8 @@ h1 span {
 .nav-item {
   position: absolute;
   z-index: 1;
-  top: 0;
-  left: 0;
+  top: 300px;
+  left: -100px;
 }
 
 .nav-item a {
@@ -512,7 +512,7 @@ h1 span {
 
 .nav-right-cont {
   left: auto;
-  right: 0;
+  right: -100px;
 }
 
 /* IDEAS */
